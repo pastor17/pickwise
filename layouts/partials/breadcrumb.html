@@ -1,0 +1,11 @@
+{{- /* Breadcrumb. Input: slice of dict { label, url } — last item without url is current. */ -}}
+<nav class="breadcrumb" aria-label="Breadcrumb">
+  {{- range $i, $item := . -}}
+    {{- if gt $i 0 }}<span class="breadcrumb__sep" aria-hidden="true">›</span>{{ end -}}
+    {{- if $item.url -}}
+      <a href="{{ $item.url }}">{{ $item.label }}</a>
+    {{- else -}}
+      <span aria-current="page">{{ $item.label }}</span>
+    {{- end -}}
+  {{- end -}}
+</nav>

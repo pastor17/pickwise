@@ -1,0 +1,16 @@
+{{- /* Article structured data. Input: guide page context. */ -}}
+<script type="application/ld+json">
+{{- $article := dict
+  "@context" "https://schema.org"
+  "@type" "Article"
+  "headline" .Title
+  "author" (dict "@type" "Organization" "name" site.Params.author)
+  "publisher" (dict "@type" "Organization" "name" site.Title "logo" (dict "@type" "ImageObject" "url" (absURL "favicon.svg")))
+  "datePublished" (.Date.Format "2006-01-02")
+  "dateModified" ((.Lastmod | default .Date).Format "2006-01-02")
+  "mainEntityOfPage" .Permalink
+-}}
+{{- with .Params.summary }}{{ $article = merge $article (dict "description" .) }}{{ end -}}
+{{ $article | jsonify | safeJS }}
+</script>
+{{ partial "schema/faq-page.html" . }}

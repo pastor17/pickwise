@@ -1,0 +1,85 @@
+{{ define "main" }}
+{{- $catSlug := "" }}{{ with index .Params.categories 0 }}{{ $catSlug = . }}{{ end -}}
+{{- $cat := dict }}{{ range first 1 (where site.Data.categories "slug" $catSlug) }}{{ $cat = . }}{{ end -}}
+{{- $color := $cat.color | default "#0f766e" -}}
+
+<article class="guide" style="--review-color: {{ $color }}">
+  <div class="container">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="{{ site.Home.RelPermalink }}">Home</a><span aria-hidden="true">›</span>
+      <a href="{{ "guides/" | relURL }}">Guides</a><span aria-hidden="true">›</span>
+      {{- if $cat.name }}<a href="{{ printf "/categories/%s/" $catSlug | relURL }}">{{ $cat.name }}</a><span aria-hidden="true">›</span>{{ end -}}
+      <span aria-current="page">{{ .Title }}</span>
+    </nav>
+
+    <header class="guide-head">
+      <div class="guide-head__badges">
+        {{- range .Params.categories }}{{ partial "badge.html" (dict "taxonomy" "categories" "term" .) }}{{ end -}}
+      </div>
+      <h1 class="guide-head__title">{{ .Title }}</h1>
+      {{- with .Params.summary }}<p class="guide-head__summary">{{ . }}</p>{{ end -}}
+      <div class="guide-head__meta">
+        <span>✍️ {{ .Params.author | default site.Params.author }}</span>
+        <span>⏱️ {{ .ReadingTime }} min read</span>
+        {{- with .Lastmod }}<span>🕒 Updated {{ .Format "Jan 2, 2006" }}</span>{{ end -}}
+      </div>
+    </header>
+
+    {{- with .Params.cover -}}
+    {{- $src := partial "cover-src.html" . -}}
+    {{- if $src -}}
+    <figure class="guide-figure">
+      <img src="{{ $src }}" alt="{{ $.Title }}" width="960" height="540" loading="eager" decoding="async" referrerpolicy="no-referrer">
+    </figure>
+    {{- end -}}
+    {{- end -}}
+
+    {{- with .Params.keyPoints -}}
+    <aside class="keypoints" style="--review-color: {{ $color }}">
+      <h2 class="keypoints__title">🎯 The short version</h2>
+      <ul>
+        {{- range . }}<li>{{ . }}</li>{{ end -}}
+      </ul>
+    </aside>
+    {{- end -}}
+
+    {{ partial "toc.html" . }}
+
+    <div class="article-body" id="articleBody">
+      {{ .Content }}
+    </div>
+
+    {{ partial "faq.html" . }}
+    {{ partial "disclosure.html" . }}
+
+    {{- with .Params.tags -}}
+    <div class="tag-row">
+      {{- range . }}<a class="tag" href="{{ printf "/tags/%s/" (. | urlize) | relURL }}">#{{ . }}</a>{{ end -}}
+    </div>
+    {{- end -}}
+
+    <nav class="pager">
+      {{- with .PrevInSection }}<a class="pager__link" href="{{ .RelPermalink }}">← {{ .Title }}</a>{{ end -}}
+      {{- with .NextInSection }}<a class="pager__link pager__link--next" href="{{ .RelPermalink }}">{{ .Title }} →</a>{{ end -}}
+    </nav>
+  </div>
+</article>
+
+{{- /* Related roundups to act on the guide */ -}}
+{{- $allRound := where site.RegularPages "Section" "roundups" -}}
+{{- $relRound := where $allRound "Params.categories" "intersect" .Params.categories -}}
+{{- $relRound = first 3 $relRound -}}
+{{- if gt (len $relRound) 0 -}}
+<section class="section">
+  <div class="container">
+    <div class="section__head">
+      <h2 class="section__title">Ready to buy? See our top picks</h2>
+      <a class="section__more" href="{{ "best/" | relURL }}">All best-of lists →</a>
+    </div>
+    <div class="card-grid">
+      {{- range $relRound }}{{ partial "roundup-card.html" . }}{{ end -}}
+    </div>
+  </div>
+</section>
+{{- end -}}
+{{ end }}

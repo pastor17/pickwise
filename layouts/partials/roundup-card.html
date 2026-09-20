@@ -1,0 +1,23 @@
+{{- /* Roundup ("best-of") card. Context: a roundup page. */ -}}
+{{- $catSlug := "" }}{{ with index .Params.categories 0 }}{{ $catSlug = . }}{{ end -}}
+{{- $color := "#0f766e" }}{{ $emoji := "🏆" -}}
+{{- range first 1 (where site.Data.categories "slug" $catSlug) -}}
+  {{- if .color }}{{ $color = .color }}{{ end }}{{ if .emoji }}{{ $emoji = .emoji }}{{ end -}}
+{{- end -}}
+{{- $pickCount := len (.Params.picks | default slice) -}}
+<article class="card card--roundup">
+  <a class="card__cover" href="{{ .RelPermalink }}" aria-label="{{ .Title }}">
+    {{ partial "cover.html" (dict "page" . "color" $color "emoji" $emoji "alt" .Title "ratio" "16 / 9" "fit" "contain") }}
+  </a>
+  <div class="card__body">
+    <div class="card__badges">
+      {{- range .Params.categories }}{{ partial "badge.html" (dict "taxonomy" "categories" "term" .) }}{{ end -}}
+    </div>
+    <h3 class="card__title"><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
+    {{- with .Params.summary }}<p class="card__summary">{{ . | plainify | truncate 110 }}</p>{{ end -}}
+    <div class="card__foot">
+      <span class="card__meta-text">🏆 {{ $pickCount }} top picks</span>
+      <span class="card__cta">See the list →</span>
+    </div>
+  </div>
+</article>

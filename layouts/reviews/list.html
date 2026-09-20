@@ -1,0 +1,18 @@
+{{ define "main" }}
+{{- $reviews := where site.RegularPages "Section" "reviews" -}}
+<div class="container page-head">
+  <h1 class="page-title">Product Reviews</h1>
+  <p class="page-subtitle">Single-product deep dives with clear pros, cons, verified specs, and a bottom-line verdict.</p>
+</div>
+<div class="container">
+  {{- $paginator := .Paginate ($reviews.ByDate.Reverse) -}}
+  {{- if gt (len $paginator.Pages) 0 -}}
+  <div class="card-grid">
+    {{- range $paginator.Pages }}{{ partial "review-card.html" . }}{{ end -}}
+  </div>
+  {{ partial "pagination.html" $paginator }}
+  {{- else -}}
+  <p class="empty">Reviews are on the way — check back soon.</p>
+  {{- end -}}
+</div>
+{{ end }}

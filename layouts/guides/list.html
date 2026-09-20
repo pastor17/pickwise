@@ -1,0 +1,18 @@
+{{ define "main" }}
+{{- $guides := where site.RegularPages "Section" "guides" -}}
+<div class="container page-head">
+  <h1 class="page-title">Buyer's Guides</h1>
+  <p class="page-subtitle">Everything you need to shop smarter — specs explained, costs revealed, and mistakes to avoid.</p>
+</div>
+<div class="container">
+  {{- $paginator := .Paginate ($guides.ByDate.Reverse) -}}
+  {{- if gt (len $paginator.Pages) 0 -}}
+  <div class="card-grid">
+    {{- range $paginator.Pages }}{{ partial "guide-card.html" . }}{{ end -}}
+  </div>
+  {{ partial "pagination.html" $paginator }}
+  {{- else -}}
+  <p class="empty">Guides are on the way — check back soon.</p>
+  {{- end -}}
+</div>
+{{ end }}

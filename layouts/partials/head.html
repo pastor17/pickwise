@@ -1,0 +1,35 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ if .IsHome }}{{ site.Title }} · {{ site.Params.tagline }}{{ else }}{{ .Title }} · {{ site.Title }}{{ end }}</title>
+{{- $desc := "" -}}
+{{- if .IsHome -}}
+  {{- $desc = site.Params.description -}}
+{{- else if .Params.summary -}}
+  {{- $desc = .Params.summary -}}
+{{- else if .Description -}}
+  {{- $desc = .Description -}}
+{{- else if .Summary -}}
+  {{- $desc = .Summary | plainify | truncate 160 -}}
+{{- end -}}
+<meta name="description" content="{{ $desc }}">
+<meta name="author" content="{{ site.Params.author }}">
+<link rel="canonical" href="{{ .Permalink }}">
+<link rel="icon" href="{{ "favicon.svg" | relURL }}" type="image/svg+xml">
+<meta name="theme-color" content="#0f766e">
+<meta property="og:site_name" content="{{ site.Title }}">
+<meta property="og:title" content="{{ .Title }}">
+<meta property="og:description" content="{{ $desc }}">
+<meta property="og:type" content="{{ if .IsPage }}article{{ else }}website{{ end }}">
+<meta property="og:url" content="{{ .Permalink }}">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+{{- with site.Params.twitterHandle }}<meta name="twitter:site" content="@{{ . }}">{{ end -}}
+{{- $css := resources.Get "css/main.css" -}}
+{{- if not hugo.IsServer }}{{ $css = $css | minify | fingerprint }}{{ end -}}
+<link rel="stylesheet" href="{{ $css.RelPermalink }}">
+
+{{- /* ---- Structured data ---- */ -}}
+{{ partial "schema/organization.html" . }}
+{{- if eq .Section "reviews" }}{{ partial "schema/review.html" . }}{{ end -}}
+{{- if eq .Section "roundups" }}{{ partial "schema/roundup.html" . }}{{ end -}}
+{{- if eq .Section "guides" }}{{ partial "schema/guide.html" . }}{{ end -}}

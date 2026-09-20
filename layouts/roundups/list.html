@@ -1,0 +1,18 @@
+{{ define "main" }}
+{{- $roundups := where site.RegularPages "Section" "roundups" -}}
+<div class="container page-head">
+  <h1 class="page-title">Best-of Lists</h1>
+  <p class="page-subtitle">Ranked, head-to-head comparisons — "Best {{ .Title | lower }}" style lists that get straight to the winner.</p>
+</div>
+<div class="container">
+  {{- $paginator := .Paginate ($roundups.ByDate.Reverse) -}}
+  {{- if gt (len $paginator.Pages) 0 -}}
+  <div class="card-grid">
+    {{- range $paginator.Pages }}{{ partial "roundup-card.html" . }}{{ end -}}
+  </div>
+  {{ partial "pagination.html" $paginator }}
+  {{- else -}}
+  <p class="empty">Best-of lists are on the way — check back soon.</p>
+  {{- end -}}
+</div>
+{{ end }}

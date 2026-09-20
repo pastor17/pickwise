@@ -1,0 +1,16 @@
+{{- /* Resolve a cover image URL from a string (external URL or assets path).
+      Returns a usable src, or "" if none. */ -}}
+{{- $cover := . -}}
+{{- $src := "" -}}
+{{- with $cover -}}
+  {{- if or (hasPrefix . "http://") (hasPrefix . "https://") (hasPrefix . "//") -}}
+    {{- $src = . -}}
+  {{- else -}}
+    {{- with resources.Get . -}}
+      {{- $opt := . -}}
+      {{- if gt .Width 900 }}{{ $opt = .Resize "900x webp q82" }}{{ end -}}
+      {{- $src = $opt.RelPermalink -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+{{- return $src -}}

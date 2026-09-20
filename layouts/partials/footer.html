@@ -1,0 +1,43 @@
+<footer class="site-footer">
+  <div class="container">
+    <div class="site-footer__grid">
+      <div class="site-footer__about">
+        <h2>{{ site.Params.logoEmoji }} {{ site.Title }}</h2>
+        <p>{{ site.Params.description }}</p>
+      </div>
+      <div class="site-footer__col">
+        <h3>Explore</h3>
+        <a href="{{ "reviews/" | relURL }}">Product Reviews</a>
+        <a href="{{ "best/" | relURL }}">Best-of Lists</a>
+        <a href="{{ "guides/" | relURL }}">Buyer's Guides</a>
+        <a href="{{ "categories/" | relURL }}">All Categories</a>
+      </div>
+      <div class="site-footer__col site-footer__col--cats">
+        <h3>Categories</h3>
+        {{ range site.Data.categories }}
+          {{ $c := . }}
+          {{ if eq $c.status "live" }}
+            {{ with site.GetPage (printf "/categories/%s" $c.slug) }}
+              <a href="{{ .RelPermalink }}">{{ $c.emoji }} {{ $c.name }}</a>
+            {{ else }}
+              <a href="{{ printf "/categories/%s/" $c.slug | relURL }}">{{ $c.emoji }} {{ $c.name }}</a>
+            {{ end }}
+          {{ else }}
+            <span class="site-footer__soon">{{ $c.emoji }} {{ $c.name }}</span>
+          {{ end }}
+        {{ end }}
+      </div>
+      <div class="site-footer__col">
+        <h3>Trust &amp; Transparency</h3>
+        <a href="{{ "how-we-test/" | relURL }}">How We Test</a>
+        <a href="{{ "editorial-policy/" | relURL }}">Editorial Policy</a>
+        <a href="{{ "affiliate-disclosure/" | relURL }}">Affiliate Disclosure</a>
+        <a href="{{ "image-credits/" | relURL }}">Image Credits</a>
+        <a href="{{ "about/" | relURL }}">About Us</a>
+        <a href="{{ "contact/" | relURL }}">Contact</a>
+      </div>
+    </div>
+    <p class="site-footer__disclosure">As an Amazon Associate, PickWise earns from qualifying purchases. We may earn a commission when you buy through links on our site — it never affects our ratings or recommendations.</p>
+    <p class="site-footer__copyright">{{ site.Params.copyright }}</p>
+  </div>
+</footer>

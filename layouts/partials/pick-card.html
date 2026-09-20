@@ -1,0 +1,36 @@
+{{- /* Single pick entry in a best-of list. Input: dict { pick, color, emoji } */ -}}
+{{- $pick := .pick -}}
+{{- $color := .color | default "#0f766e" -}}
+{{- $emoji := .emoji | default "🛒" -}}
+{{- $title := $pick.name -}}
+{{- if and $pick.brand $pick.name }}{{ $title = printf "%s %s" $pick.brand $pick.name }}{{ end -}}
+<div class="pick" id="pick-{{ $pick.rank }}">
+  <div class="pick__media" aria-hidden="true">
+    <span class="pick__emoji">{{ $emoji }}</span>
+    {{- with $pick.image -}}
+      {{- $src := partial "cover-src.html" . -}}
+      {{- if $src -}}
+        <img class="pick__img" src="{{ $src }}" alt="{{ $title }}" loading="lazy" decoding="async" onerror="this.remove()">
+      {{- end -}}
+    {{- end -}}
+  </div>
+  <div class="pick__body">
+    <div class="pick__meta">
+      <span class="pick__rank" style="--pick-color: {{ $color }}">#{{ $pick.rank }}</span>
+      {{- with $pick.bestFor }}<span class="pick__bestfor" style="--pick-color: {{ $color }}">{{ . }}</span>{{ end -}}
+    </div>
+    <h3 class="pick__title">{{ $title }}</h3>
+    {{- with $pick.blurb }}<p class="pick__blurb">{{ . }}</p>{{ end -}}
+    {{- if or $pick.pros $pick.cons -}}
+    <div class="pick__proscons">
+      {{- if $pick.pros }}<ul class="pick__pros">{{ range $pick.pros }}<li>{{ . }}</li>{{ end }}</ul>{{ end -}}
+      {{- if $pick.cons }}<ul class="pick__cons">{{ range $pick.cons }}<li>{{ . }}</li>{{ end }}</ul>{{ end -}}
+    </div>
+    {{- end -}}
+    <div class="pick__foot">
+      {{- if $pick.rating }}<span class="pick__rating">{{ partial "rating.html" (dict "rating" $pick.rating "showValue" true) }}</span>{{ end -}}
+      {{- if $pick.price }}<span class="pick__price">{{ printf "$%.0f" $pick.price }}</span>{{ end -}}
+      <span class="pick__cta">{{ partial "affiliate-btn.html" (dict "asin" $pick.asin "label" "Check price") }}</span>
+    </div>
+  </div>
+</div>

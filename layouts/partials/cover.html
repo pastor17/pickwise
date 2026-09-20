@@ -1,0 +1,23 @@
+{{- /* Cover image with emoji+gradient fallback (no layout shift).
+      Input: dict { page, color, emoji, alt, ratio, class, lazy, fit, src }
+        fit: "cover" (default, fills the frame) or "contain" (shows the whole
+             product shot on a clean white background — best for product photos) */ -}}
+{{- $page := .page -}}
+{{- $color := .color | default "#0f766e" -}}
+{{- $emoji := .emoji | default "🛒" -}}
+{{- $alt := .alt | default $page.Title -}}
+{{- $ratio := .ratio | default "16 / 10" -}}
+{{- $class := .class | default "" -}}
+{{- $lazy := .lazy | default true -}}
+{{- $fit := .fit | default "cover" -}}
+{{- if eq $fit "contain" }}{{ $class = printf "%s cover--contain" $class }}{{ end -}}
+{{- $src := "" -}}
+{{- if .src }}{{ $src = .src }}{{ else }}{{ $src = partial "cover-src.html" $page.Params.cover }}{{ end -}}
+<span class="cover {{ $class }}" style="--cover-color: {{ $color }}; --cover-ratio: {{ $ratio }}">
+  <span class="cover__emoji" aria-hidden="true">{{ $emoji }}</span>
+  {{- if $src -}}
+    <img class="cover__img" src="{{ $src }}" alt="{{ $alt }}" width="640" height="400"
+         {{ if $lazy }}loading="lazy"{{ end }} decoding="async" referrerpolicy="no-referrer"
+         style="object-fit: {{ $fit }}" onerror="this.style.display='none'">
+  {{- end -}}
+</span>

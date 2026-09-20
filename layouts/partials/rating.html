@@ -1,0 +1,8 @@
+{{- /* Star rating. Input: dict { rating, showValue } — rating is 0.0–5.0 */ -}}
+{{- $rating := .rating | default 0 -}}
+<span class="stars" style="--rating: {{ $rating }}" aria-hidden="true">
+  <span class="stars__bg">★★★★★</span>
+  <span class="stars__fill">★★★★★</span>
+</span>
+{{- if .showValue }}<span class="stars__value">{{ printf "%.1f" $rating }}</span>{{ end -}}
+<span class="sr-only">{{ printf "%.1f" $rating }} out of 5 stars</span>

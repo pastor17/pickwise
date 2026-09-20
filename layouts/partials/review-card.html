@@ -1,0 +1,26 @@
+{{- /* Product review card. Context: a review page. */ -}}
+{{- $catSlug := "" }}{{ with index .Params.categories 0 }}{{ $catSlug = . }}{{ end -}}
+{{- $color := "#0f766e" }}{{ $emoji := "🛒" -}}
+{{- range first 1 (where site.Data.categories "slug" $catSlug) -}}
+  {{- if .color }}{{ $color = .color }}{{ end }}{{ if .emoji }}{{ $emoji = .emoji }}{{ end -}}
+{{- end -}}
+<article class="card card--review">
+  <a class="card__cover" href="{{ .RelPermalink }}" aria-label="{{ .Title }}">
+    {{ partial "cover.html" (dict "page" . "color" $color "emoji" $emoji "alt" .Title "ratio" "16 / 9" "fit" "contain") }}
+  </a>
+  <div class="card__body">
+    <div class="card__badges">
+      {{- range .Params.categories }}{{ partial "badge.html" (dict "taxonomy" "categories" "term" .) }}{{ end -}}
+      {{- with .Params.award }}<span class="card__award">🏅 {{ . }}</span>{{ end -}}
+    </div>
+    <h3 class="card__title"><a href="{{ .RelPermalink }}">{{ with .Params.brand }}<span class="card__brand">{{ . }}</span> {{ end }}{{ with .Params.product }}{{ . }}{{ else }}{{ .Title }}{{ end }}</a></h3>
+    <div class="card__rating">
+      {{ partial "rating.html" (dict "rating" .Params.rating "showValue" true) }}
+    </div>
+    {{- with .Params.summary }}<p class="card__summary">{{ . | plainify | truncate 110 }}</p>{{ end -}}
+    <div class="card__foot">
+      {{- with .Params.price }}<span class="card__price">{{ printf "$%.0f" . }}</span>{{ end -}}
+      <span class="card__cta">Read review →</span>
+    </div>
+  </div>
+</article>

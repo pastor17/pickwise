@@ -1,0 +1,19 @@
+{{- /* FAQPage structured data. Input: page context (reads .Params.faq). */ -}}
+{{- with .Params.faq -}}
+<script type="application/ld+json">
+{{- $questions := slice -}}
+{{- range . -}}
+  {{- $questions = $questions | append (dict
+    "@type" "Question"
+    "name" .q
+    "acceptedAnswer" (dict "@type" "Answer" "text" .a)
+  ) -}}
+{{- end -}}
+{{- $faq := dict
+  "@context" "https://schema.org"
+  "@type" "FAQPage"
+  "mainEntity" $questions
+-}}
+{{ $faq | jsonify | safeJS }}
+</script>
+{{- end -}}

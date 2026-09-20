@@ -1,0 +1,13 @@
+{{ define "main" }}
+<div class="container page-head">
+  <h1 class="page-title">{{ .Title }}</h1>
+  {{- with .Content }}<div class="prose">{{ . }}</div>{{ end -}}
+</div>
+<div class="container">
+  <div class="card-grid">
+    {{- range .Pages -}}
+      {{ partial "review-card.html" . }}
+    {{- end -}}
+  </div>
+</div>
+{{ end }}

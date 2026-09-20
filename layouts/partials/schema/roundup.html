@@ -1,0 +1,26 @@
+{{- /* ItemList (best-of list) structured data. Input: roundup page context. */ -}}
+{{- $title := .Title -}}
+{{- $summary := .Params.summary -}}
+{{- with .Params.picks -}}
+{{- $elements := slice -}}
+{{- range . -}}
+  {{- $n := "" -}}
+  {{- if and .brand .name }}{{ $n = printf "%s %s" .brand .name }}{{ else }}{{ $n = .name }}{{ end -}}
+  {{- $product := dict "@type" "Product" "name" $n -}}
+  {{- if .brand }}{{ $product = merge $product (dict "brand" (dict "@type" "Brand" "name" .brand)) }}{{ end -}}
+  {{- if .image }}{{ $product = merge $product (dict "image" .image) }}{{ end -}}
+  {{- if .price }}{{ $product = merge $product (dict "offers" (dict "@type" "Offer" "price" (printf "%.2f" .price) "priceCurrency" "USD" "availability" "https://schema.org/InStock")) }}{{ end -}}
+  {{- $elements = $elements | append (dict "@type" "ListItem" "position" .rank "item" $product) -}}
+{{- end -}}
+<script type="application/ld+json">
+{{- $out := dict
+  "@context" "https://schema.org"
+  "@type" "ItemList"
+  "name" $title
+  "description" $summary
+  "itemListElement" $elements
+-}}
+{{ $out | jsonify | safeJS }}
+</script>
+{{- end -}}
+{{ partial "schema/faq-page.html" . }}

@@ -1,0 +1,30 @@
+{{ define "main" }}
+{{- $plural := .Data.Plural -}}
+{{- $term := .Data.Term -}}
+{{- $cat := dict -}}
+{{- if eq $plural "categories" -}}
+  {{- range first 1 (where site.Data.categories "slug" $term) }}{{ $cat = . }}{{ end -}}
+{{- end -}}
+{{- $color := $cat.color | default "#0f766e" -}}
+{{- $emoji := $cat.emoji | default "" -}}
+
+<div class="container page-head">
+  <h1 class="page-title">{{ with $emoji }}{{ . }} {{ end }}{{ with $cat.name }}{{ . }}{{ else }}{{ .Title }}{{ end }}</h1>
+  {{- with $cat.description }}<p class="page-subtitle">{{ . }}</p>{{ else }}<p class="page-subtitle">{{ len .Pages }} {{ if eq (len .Pages) 1 }}result{{ else }}results{{ end }} tagged "{{ .Title }}".</p>{{ end -}}
+  <p class="page-count" style="--term-color: {{ $color }}">{{ len .Pages }} {{ if eq (len .Pages) 1 }}article{{ else }}articles{{ end }}</p>
+</div>
+<div class="container">
+  {{- if gt (len .Pages) 0 -}}
+  <div class="card-grid">
+    {{- range .Pages.ByDate.Reverse -}}
+      {{- if eq .Section "reviews" }}{{ partial "review-card.html" . }}
+      {{- else if eq .Section "roundups" }}{{ partial "roundup-card.html" . }}
+      {{- else if eq .Section "guides" }}{{ partial "guide-card.html" . }}
+      {{- end -}}
+    {{- end -}}
+  </div>
+  {{- else -}}
+  <p class="empty">Nothing here yet — new content is on the way.</p>
+  {{- end -}}
+</div>
+{{ end }}

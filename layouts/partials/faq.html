@@ -1,0 +1,12 @@
+{{- /* Renders FAQ Q&A list in the page. Input: page context (reads .Params.faq). */ -}}
+{{- with .Params.faq -}}
+<section class="faq">
+  <h2 class="faq__title">Frequently asked questions</h2>
+  {{- range . -}}
+  <details class="faq__item">
+    <summary>{{ .q }}</summary>
+    <div class="faq__answer">{{ .a | markdownify }}</div>
+  </details>
+  {{- end -}}
+</section>
+{{- end -}}

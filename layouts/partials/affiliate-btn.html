@@ -1,0 +1,7 @@
+{{- /* Affiliate CTA button. Input: dict { asin, url, label, variant } */ -}}
+{{- $asin := .asin -}}
+{{- $url := .url -}}
+{{- if and (not $url) $asin }}{{ $url = partial "amazon-link.html" $asin }}{{ end -}}
+{{- if $url -}}
+<a class="btn btn--primary" href="{{ $url }}" target="_blank" rel="nofollow sponsored noopener">{{ .label | default "Check price on Amazon" }}<span aria-hidden="true"> ↗</span></a>
+{{- end -}}

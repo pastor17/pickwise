@@ -1,0 +1,107 @@
+{{ define "main" }}
+{{- $catSlug := "" }}{{ with index .Params.categories 0 }}{{ $catSlug = . }}{{ end -}}
+{{- $cat := dict }}{{ range first 1 (where site.Data.categories "slug" $catSlug) }}{{ $cat = . }}{{ end -}}
+{{- $color := $cat.color | default "#0f766e" -}}
+
+<article class="review" style="--review-color: {{ $color }}">
+  <div class="container">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="{{ site.Home.RelPermalink }}">Home</a><span aria-hidden="true">›</span>
+      <a href="{{ "reviews/" | relURL }}">Reviews</a><span aria-hidden="true">›</span>
+      {{- if $cat.name }}<a href="{{ printf "/categories/%s/" $catSlug | relURL }}">{{ $cat.name }}</a><span aria-hidden="true">›</span>{{ end -}}
+      <span aria-current="page">{{ with .Params.brand }}{{ . }} {{ end }}{{ .Params.product | default .Title }}</span>
+    </nav>
+
+    <header class="review-head">
+      <div class="review-head__badges">
+        {{- range .Params.categories }}{{ partial "badge.html" (dict "taxonomy" "categories" "term" .) }}{{ end -}}
+        {{- with .Params.award }}<span class="review-head__award">🏅 {{ . }}</span>{{ end -}}
+      </div>
+      {{- with .Params.brand }}<p class="review-head__brand">{{ . }}</p>{{ end -}}
+      <h1 class="review-head__title">{{ .Params.product | default .Title }}</h1>
+      {{- with .Params.summary }}<p class="review-head__summary">{{ . }}</p>{{ end -}}
+      {{- $coverSrc := partial "cover-src.html" .Params.cover -}}
+      {{- if $coverSrc -}}
+      <figure class="review-head__cover">
+        <img src="{{ $coverSrc }}" alt="{{ with .Params.brand }}{{ . }} {{ end }}{{ .Params.product | default .Title }}" loading="eager" decoding="async">
+      </figure>
+      {{- end -}}
+      <div class="review-head__meta">
+        <span class="review-head__rating">{{ partial "rating.html" (dict "rating" .Params.rating "showValue" true) }}</span>
+        {{- with .Params.price }}<span class="review-head__price">{{ printf "$%.0f" . }}</span>{{ end -}}
+        {{- with .Params.bestFor }}<span class="review-head__bestfor">🎯 {{ . }}</span>{{ end -}}
+      </div>
+      <div class="review-head__actions">
+        {{ partial "affiliate-btn.html" (dict "asin" .Params.asin "label" "Check price on Amazon") }}
+        <span class="review-head__note">As an Amazon Associate, we earn from qualifying purchases.</span>
+      </div>
+    </header>
+
+    <div class="review-layout">
+      <div class="review-main">
+        {{ partial "pros-cons.html" (dict "pros" .Params.pros "cons" .Params.cons) }}
+
+        {{- with .Params.specs -}}
+        <section class="specs">
+          <h2 class="specs__title">Key specifications</h2>
+          <table class="specs__table">
+            <tbody>
+              {{- range . -}}
+              <tr><th scope="row">{{ .label }}</th><td>{{ .value }}</td></tr>
+              {{- end -}}
+            </tbody>
+          </table>
+        </section>
+        {{- end -}}
+
+        {{ partial "toc.html" . }}
+
+        <div class="article-body" id="articleBody">
+          {{ .Content }}
+        </div>
+
+        {{ partial "disclosure.html" . }}
+
+        {{- with .Params.tags -}}
+        <div class="tag-row">
+          {{- range . }}<a class="tag" href="{{ printf "/tags/%s/" (. | urlize) | relURL }}">#{{ . }}</a>{{ end -}}
+        </div>
+        {{- end -}}
+
+        <nav class="pager">
+          {{- with .PrevInSection }}<a class="pager__link" href="{{ .RelPermalink }}">← {{ .Title }}</a>{{ end -}}
+          {{- with .NextInSection }}<a class="pager__link pager__link--next" href="{{ .RelPermalink }}">{{ .Title }} →</a>{{ end -}}
+        </nav>
+      </div>
+
+      <aside class="review-side">
+        <div class="verdict" id="verdictBox">
+          <span class="verdict__eyebrow">Our verdict</span>
+          <div class="verdict__rating">{{ partial "rating.html" (dict "rating" .Params.rating "showValue" true) }}</div>
+          {{- with .Params.verdict }}<p class="verdict__text">{{ . }}</p>{{ end -}}
+          {{- with .Params.price }}<p class="verdict__price">Typical price: <strong>{{ printf "$%.0f" . }}</strong></p>{{ end -}}
+          <div class="verdict__cta">{{ partial "affiliate-btn.html" (dict "asin" .Params.asin "label" "Check price on Amazon") }}</div>
+        </div>
+      </aside>
+    </div>
+  </div>
+</article>
+
+{{- /* Related reviews in the same category */ -}}
+{{- $all := where site.RegularPages "Section" "reviews" -}}
+{{- $related := where (where $all "Params.categories" "intersect" .Params.categories) "RelPermalink" "ne" .RelPermalink -}}
+{{- $related = first 3 $related -}}
+{{- if gt (len $related) 0 -}}
+<section class="section">
+  <div class="container">
+    <div class="section__head">
+      <h2 class="section__title">More reviews</h2>
+      <a class="section__more" href="{{ "reviews/" | relURL }}">All reviews →</a>
+    </div>
+    <div class="card-grid">
+      {{- range $related }}{{ partial "review-card.html" . }}{{ end -}}
+    </div>
+  </div>
+</section>
+{{- end -}}
+{{ end }}

@@ -1,0 +1,13 @@
+{{- /* Category card for the categories index. Input: dict { cat, count } */ -}}
+{{- $cat := .cat -}}
+{{- $count := .count -}}
+{{- $soon := eq $cat.status "soon" -}}
+<a class="cat-card {{ if $soon }}cat-card--soon{{ end }}" href="{{ printf "/categories/%s/" $cat.slug | relURL }}">
+  <span class="cat-card__emoji" aria-hidden="true" style="--cat-color: {{ $cat.color }}">{{ $cat.emoji }}</span>
+  <h3 class="cat-card__name">{{ $cat.name }}</h3>
+  {{- with $cat.tagline }}<p class="cat-card__tagline" style="--cat-color: {{ $cat.color }}">{{ . }}</p>{{ end -}}
+  {{- with $cat.description }}<p class="cat-card__desc">{{ . }}</p>{{ end -}}
+  <span class="cat-card__count" style="--cat-color: {{ $cat.color }}">
+    {{- if $soon }}Coming soon{{ else if gt $count 0 }}{{ $count }} {{ if eq $count 1 }}review{{ else }}reviews &amp; guides{{ end }}{{ else }}New{{ end -}}
+  </span>
+</a>

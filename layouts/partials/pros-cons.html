@@ -1,0 +1,15 @@
+{{- /* Pros & cons two-column box. Input: dict { pros, cons } */ -}}
+<div class="proscons">
+  <div class="proscons__col proscons__col--pros">
+    <h3 class="proscons__title">👍 What we like</h3>
+    <ul>
+      {{- range .pros -}}<li>{{ . }}</li>{{- end -}}
+    </ul>
+  </div>
+  <div class="proscons__col proscons__col--cons">
+    <h3 class="proscons__title">👎 What we don't</h3>
+    <ul>
+      {{- range .cons -}}<li>{{ . }}</li>{{- end -}}
+    </ul>
+  </div>
+</div>

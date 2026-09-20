@@ -1,0 +1,3 @@
+{{- /* Build an Amazon affiliate URL from an ASIN. Input: ASIN string. */ -}}
+{{- $asin := . -}}
+{{- if $asin -}}{{ printf "https://%s/dp/%s?tag=%s&linkCode=ll1&ref_=as_li_ss_tl" site.Params.amazonDomain $asin site.Params.affiliateTag }}{{- end -}}

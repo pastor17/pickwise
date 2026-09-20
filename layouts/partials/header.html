@@ -1,0 +1,22 @@
+<header class="site-header">
+  <div class="container site-header__inner">
+    <a class="brand" href="{{ site.Home.RelPermalink }}">
+      <span class="brand__logo" aria-hidden="true">{{ site.Params.logoEmoji }}</span>
+      <span class="brand__text">
+        <strong>{{ site.Title }}</strong>
+        <small>{{ site.Params.tagline }}</small>
+      </span>
+    </a>
+    <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="siteNav">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="site-nav" id="siteNav" aria-label="Primary navigation">
+      <a href="{{ "reviews/" | relURL }}">Reviews</a>
+      <a href="{{ "best/" | relURL }}">Best Lists</a>
+      <a href="{{ "guides/" | relURL }}">Guides</a>
+      <a href="{{ "categories/" | relURL }}">Categories</a>
+      <a href="{{ "how-we-test/" | relURL }}">How We Test</a>
+      <a href="{{ "about/" | relURL }}">About</a>
+    </nav>
+  </div>
+</header>

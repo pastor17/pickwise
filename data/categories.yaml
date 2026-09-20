@@ -1,0 +1,87 @@
+# =============================================================
+# PickWise — product category metadata
+# slug must match the `categories` values used in content front matter.
+# status: "live"  -> has published content
+#         "soon"  -> reserved for future content (rendered as "coming soon")
+# =============================================================
+
+- slug: "air-purifiers"
+  name: "Air Purifiers"
+  emoji: "🌬️"
+  color: "#0f766e"
+  status: "live"
+  tagline: "Breathe easier at home"
+  description: "In-depth air purifier reviews and head-to-head comparisons — coverage, CADR, HEPA filtration, noise, and real filter costs."
+  searchHint: "Best air purifiers · HEPA · allergies · pet dander · smoke"
+
+- slug: "robot-vacuums"
+  name: "Robot Vacuums"
+  emoji: "🤖"
+  color: "#2563eb"
+  status: "soon"
+  tagline: "Set it, forget it, clean floors"
+  description: "Mapping, suction, obstacle avoidance, and self-emptying docks for every home and budget."
+
+- slug: "kitchen-appliances"
+  name: "Kitchen Appliances"
+  emoji: "🍳"
+  color: "#ea580c"
+  status: "soon"
+  tagline: "Cook smarter, not harder"
+  description: "Air fryers, blenders, coffee gear, and countertop tools — tested for results, not hype."
+
+- slug: "home-comfort"
+  name: "Home Comfort"
+  emoji: "🏠"
+  color: "#0891b2"
+  status: "soon"
+  tagline: "Comfort in every room"
+  description: "Humidifiers, dehumidifiers, heaters, fans, and smart climate gear."
+
+- slug: "outdoor-camping"
+  name: "Outdoor & Camping"
+  emoji: "⛺"
+  color: "#16a34a"
+  status: "soon"
+  tagline: "Gear that survives the trip"
+  description: "Tents, sleeping systems, lighting, and camp kitchen essentials, field-tested."
+
+- slug: "home-decor"
+  name: "Home & Decor"
+  emoji: "🛋️"
+  color: "#9333ea"
+  status: "soon"
+  tagline: "A home that works as good as it looks"
+  description: "Furniture, lighting, bedding, and functional decor that earn their space."
+
+- slug: "beauty-skincare"
+  name: "Beauty & Skincare"
+  emoji: "✨"
+  color: "#db2777"
+  status: "soon"
+  tagline: "Skincare and beauty, reviewed honestly"
+  description: "Ingredients-first reviews of skincare, tools, and everyday beauty staples."
+
+- slug: "baby-kids"
+  name: "Baby & Kids"
+  emoji: "🍼"
+  color: "#f59e0b"
+  status: "soon"
+  tagline: "Safety and sanity for new parents"
+  description: "Strollers, monitors, and nursery gear, vetted for safety and real-world use."
+
+- slug: "fitness"
+  name: "Fitness & Recovery"
+  emoji: "🏋️"
+  color: "#dc2626"
+  status: "soon"
+  tagline: "Train smarter at home"
+  description: "Home gym equipment, wearables, and recovery tools for every space and level."
+
+- slug: "pet-supplies"
+  name: "Pet Supplies"
+  emoji: "🐾"
+  color: "#7c3aed"
+  status: "soon"
+  tagline: "For the other member of the family"
+  description: "Feeders, beds, grooming, and toys that hold up to daily use."

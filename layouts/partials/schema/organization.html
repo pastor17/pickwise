@@ -1,0 +1,24 @@
+{{- /* Site-wide Organization + WebSite structured data. */ -}}
+<script type="application/ld+json">
+{{- $org := dict
+  "@context" "https://schema.org"
+  "@graph" (slice
+    (dict
+      "@type" "Organization"
+      "@id" (printf "%s#organization" site.BaseURL)
+      "name" site.Title
+      "url" site.BaseURL
+      "description" site.Params.description
+      "logo" (dict "@type" "ImageObject" "url" (absURL "favicon.svg"))
+    )
+    (dict
+      "@type" "WebSite"
+      "@id" (printf "%s#website" site.BaseURL)
+      "url" site.BaseURL
+      "name" site.Title
+      "publisher" (dict "@id" (printf "%s#organization" site.BaseURL))
+    )
+  )
+-}}
+{{ $org | jsonify | safeJS }}
+</script>

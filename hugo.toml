@@ -1,0 +1,71 @@
+# =============================================================
+# PickWise — Independent product reviews & buyer's guides
+# English-language site for overseas buyers.
+# Launch vertical: air purifiers (home air quality).
+# Architecture is multi-category ready (see data/categories.yaml).
+# =============================================================
+
+# Replace with your real domain before deploying.
+baseURL = 'https://pickwise.example.com/'
+title = 'PickWise'
+languageCode = 'en-US'
+defaultContentLanguage = 'en'
+summaryLength = 140
+enableEmoji = true
+enableRobotsTXT = true
+disableKinds = ['RSS']
+disableHugoGeneratorInject = true
+enableInlineShortcodes = true
+
+# Markdown / rendering
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+  [markup.tableOfContents]
+    startLevel = 2
+    endLevel = 3
+    ordered = false
+
+# Taxonomy: product categories + free-form tags
+[taxonomies]
+  category = 'categories'
+  tag = 'tags'
+
+# Clean, SEO-friendly URLs
+[permalinks]
+  reviews = '/reviews/:slug/'
+  roundups = '/best/:slug/'
+  guides = '/guides/:slug/'
+
+[pagination]
+  pagerSize = 12
+  path = 'page'
+
+[params]
+  tagline = 'Honest reviews. Smarter buying.'
+  description = 'PickWise is an independent, reader-supported review site. We research, compare, and test home products so you can buy with confidence — with clear pros, cons, and unbiased recommendations.'
+  author = 'PickWise Editorial Team'
+  siteName = 'PickWise'
+  copyright = '© 2025 PickWise. All rights reserved.'
+  contactEmail = 'hello@pickwise.example.com'
+  defaultCoverEmoji = '🛒'
+
+  # Affiliate settings (Amazon Associates)
+  # Set your real Associates tag here; links are built from ASINs automatically.
+  affiliateTag = 'pickwise-20'
+  amazonDomain = 'www.amazon.com'
+
+  # Rating scale (out of 5)
+  ratingMax = 5
+
+  # Social / identity
+  logoEmoji = '🧭'
+  twitterHandle = 'pickwise'
+
+[outputs]
+  home = ['HTML']
+  page = ['HTML']
+  section = ['HTML']
+  taxonomy = ['HTML']
+  term = ['HTML']

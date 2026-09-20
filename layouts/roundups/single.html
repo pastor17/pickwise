@@ -1,0 +1,115 @@
+{{ define "main" }}
+{{- $catSlug := "" }}{{ with index .Params.categories 0 }}{{ $catSlug = . }}{{ end -}}
+{{- $cat := dict }}{{ range first 1 (where site.Data.categories "slug" $catSlug) }}{{ $cat = . }}{{ end -}}
+{{- $color := $cat.color | default "#0f766e" -}}
+{{- $emoji := $cat.emoji | default "🏆" -}}
+
+<article class="roundup" style="--review-color: {{ $color }}">
+  <div class="container">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="{{ site.Home.RelPermalink }}">Home</a><span aria-hidden="true">›</span>
+      <a href="{{ "best/" | relURL }}">Best Lists</a><span aria-hidden="true">›</span>
+      {{- if $cat.name }}<a href="{{ printf "/categories/%s/" $catSlug | relURL }}">{{ $cat.name }}</a><span aria-hidden="true">›</span>{{ end -}}
+      <span aria-current="page">{{ .Title }}</span>
+    </nav>
+
+    <header class="roundup-head">
+      <div class="roundup-head__badges">
+        {{- range .Params.categories }}{{ partial "badge.html" (dict "taxonomy" "categories" "term" .) }}{{ end -}}
+      </div>
+      <h1 class="roundup-head__title">{{ .Title }}</h1>
+      {{- with .Params.summary }}<p class="roundup-head__summary">{{ . }}</p>{{ end -}}
+      <div class="roundup-head__meta">
+        <span>✍️ {{ .Params.author | default site.Params.author }}</span>
+        {{- with .Params.updateNote }}<span>🔄 {{ . }}</span>{{ end -}}
+        {{- with .Lastmod }}<span>🕒 Updated {{ .Format "Jan 2, 2006" }}</span>{{ end -}}
+      </div>
+    </header>
+
+    {{- if .Params.picks -}}
+    <div class="comparison-wrap">
+      <h2 class="comparison-title">The shortlist at a glance</h2>
+      <div class="comparison-scroll">
+        <table class="comparison">
+          <thead>
+            <tr>
+              <th scope="col">Rank</th>
+              <th scope="col">Product</th>
+              <th scope="col">Best for</th>
+              <th scope="col">Rating</th>
+              <th scope="col">Price</th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody>
+            {{- range .Params.picks -}}
+            {{- $title := .name }}{{ if and .brand .name }}{{ $title = printf "%s %s" .brand .name }}{{ end -}}
+            <tr>
+              <td class="comparison__rank">{{ .rank }}</td>
+              <td class="comparison__product"><a href="#pick-{{ .rank }}">{{ $title }}</a></td>
+              <td class="comparison__bestfor">{{ .bestFor }}</td>
+              <td class="comparison__rating">{{ partial "rating.html" (dict "rating" .rating "showValue" true) }}</td>
+              <td class="comparison__price">{{ printf "$%.0f" .price }}</td>
+              <td class="comparison__cta">{{ partial "affiliate-btn.html" (dict "asin" .asin "label" "Check price") }}</td>
+            </tr>
+            {{- end -}}
+          </tbody>
+        </table>
+      </div>
+      <p class="comparison-note">Prices are approximate and change often. <a href="{{ "affiliate-disclosure/" | relURL }}">How we make money</a>.</p>
+    </div>
+    {{- end -}}
+
+    <div class="article-body" id="articleBody">
+      {{ .Content }}
+    </div>
+
+    {{- if .Params.picks -}}
+    <section class="picks">
+      <h2 class="picks__title">The picks, in detail</h2>
+      {{- range .Params.picks -}}
+        {{ partial "pick-card.html" (dict "pick" . "color" $color "emoji" $emoji) }}
+      {{- end -}}
+    </section>
+    {{- end -}}
+
+    {{ partial "faq.html" . }}
+    {{ partial "disclosure.html" . }}
+
+    {{- with .Params.tags -}}
+    <div class="tag-row">
+      {{- range . }}<a class="tag" href="{{ printf "/tags/%s/" (. | urlize) | relURL }}">#{{ . }}</a>{{ end -}}
+    </div>
+    {{- end -}}
+  </div>
+</article>
+
+{{- /* Related roundups + guides */ -}}
+{{- $allRound := where site.RegularPages "Section" "roundups" -}}
+{{- $relRound := where (where $allRound "Params.categories" "intersect" .Params.categories) "RelPermalink" "ne" .RelPermalink -}}
+{{- $relRound = first 3 $relRound -}}
+{{- $allGuides := where site.RegularPages "Section" "guides" -}}
+{{- $relGuides := where $allGuides "Params.categories" "intersect" .Params.categories -}}
+{{- $relGuides = first 3 $relGuides -}}
+{{- if or (gt (len $relRound) 0) (gt (len $relGuides) 0) -}}
+<section class="section section--alt">
+  <div class="container">
+    <div class="section__head">
+      <h2 class="section__title">Keep reading</h2>
+    </div>
+    {{- if gt (len $relRound) 0 -}}
+    <h3 class="subsection-title">More best-of lists</h3>
+    <div class="card-grid">
+      {{- range $relRound }}{{ partial "roundup-card.html" . }}{{ end -}}
+    </div>
+    {{- end -}}
+    {{- if gt (len $relGuides) 0 -}}
+    <h3 class="subsection-title">Related guides</h3>
+    <div class="card-grid">
+      {{- range $relGuides }}{{ partial "guide-card.html" . }}{{ end -}}
+    </div>
+    {{- end -}}
+  </div>
+</section>
+{{- end -}}
+{{ end }}

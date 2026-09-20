@@ -1,0 +1,21 @@
+{{- /* Category/tag badge. Input: dict { taxonomy, term } */ -}}
+{{- $taxonomy := .taxonomy -}}
+{{- $term := .term -}}
+{{- $name := $term -}}
+{{- $emoji := "" -}}
+{{- $color := "#64748b" -}}
+{{- if eq $taxonomy "categories" -}}
+  {{- range first 1 (where site.Data.categories "slug" $term) -}}
+    {{- if .name }}{{ $name = .name }}{{ end -}}
+    {{- if .emoji }}{{ $emoji = .emoji }}{{ end -}}
+    {{- if .color }}{{ $color = .color }}{{ end -}}
+  {{- end -}}
+{{- end -}}
+{{- $href := "" -}}
+{{- with site.GetPage (printf "/%s/%s" $taxonomy $term) -}}
+  {{- $href = .RelPermalink -}}
+{{- end -}}
+<a class="badge" href="{{ $href }}" style="--badge-color: {{ $color }}">
+  {{- with $emoji }}<span class="badge__emoji" aria-hidden="true">{{ . }}</span>{{ end -}}
+  <span class="badge__text">{{ $name }}</span>
+</a>

@@ -1,0 +1,29 @@
+{{- /* Featured roundup hero card. Context: a roundup page. */ -}}
+{{- $catSlug := "" }}{{ with index .Params.categories 0 }}{{ $catSlug = . }}{{ end -}}
+{{- $color := "#0f766e" }}{{ $emoji := "🏆" -}}
+{{- range first 1 (where site.Data.categories "slug" $catSlug) -}}
+  {{- if .color }}{{ $color = .color }}{{ end }}{{ if .emoji }}{{ $emoji = .emoji }}{{ end -}}
+{{- end -}}
+{{- $winner := index .Params.picks 0 -}}
+<article class="featured">
+  <a class="featured__cover" href="{{ .RelPermalink }}" aria-hidden="true" tabindex="-1">
+    {{ partial "cover.html" (dict "page" . "color" $color "emoji" $emoji "alt" .Title "ratio" "16 / 9" "lazy" false) }}
+  </a>
+  <div class="featured__body">
+    <div class="featured__badges">
+      <span class="featured__flag">⭐ Featured list</span>
+      {{- range .Params.categories }}{{ partial "badge.html" (dict "taxonomy" "categories" "term" .) }}{{ end -}}
+    </div>
+    <h3 class="featured__title"><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
+    {{- with .Params.summary }}<p class="featured__summary">{{ . }}</p>{{ end -}}
+    {{- with $winner -}}
+    <div class="featured__winner">
+      <span class="featured__winner-label">🏆 Overall winner</span>
+      <strong>{{ .brand }} {{ .name }}</strong>
+      {{- with .bestFor }}<span class="featured__winner-for">· {{ . }}</span>{{ end -}}
+      {{- with .price }}<span class="featured__winner-price">· {{ printf "$%.0f" . }}</span>{{ end -}}
+    </div>
+    {{- end -}}
+    <a class="btn btn--primary" href="{{ .RelPermalink }}">See the full list →</a>
+  </div>
+</article>

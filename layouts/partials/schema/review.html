@@ -1,0 +1,37 @@
+{{- /* Product + Review structured data. Input: review page context. */ -}}
+{{- $brand := .Params.brand | default "" -}}
+{{- $product := .Params.product | default .Title -}}
+{{- $name := "" -}}
+{{- if and $brand $product }}{{ $name = printf "%s %s" $brand $product }}{{ else }}{{ $name = .Title }}{{ end -}}
+{{- $cover := "" -}}
+{{- with .Params.cover }}{{ $cover = partial "cover-src.html" . }}{{ if $cover }}{{ $cover = absURL $cover }}{{ end }}{{ end -}}
+{{- $rating := .Params.rating | default 0 -}}
+{{- $graph := slice -}}
+
+{{- $productNode := dict "@type" "Product" "name" $name -}}
+{{- if $brand }}{{ $productNode = merge $productNode (dict "brand" (dict "@type" "Brand" "name" $brand)) }}{{ end -}}
+{{- if $cover }}{{ $productNode = merge $productNode (dict "image" $cover) }}{{ end -}}
+{{- if .Params.price }}
+  {{- $productNode = merge $productNode (dict "offers" (dict "@type" "Offer" "price" (printf "%.2f" .Params.price) "priceCurrency" (default "USD" .Params.priceCurrency) "availability" "https://schema.org/InStock" "url" .Permalink)) }}
+{{- end -}}
+{{- $graph = $graph | append $productNode -}}
+
+{{- $review := dict
+  "@type" "Review"
+  "itemReviewed" (dict "@type" "Product" "name" $name)
+  "reviewRating" (dict "@type" "Rating" "ratingValue" $rating "bestRating" 5 "worstRating" 1)
+  "author" (dict "@type" "Organization" "name" site.Params.author "url" site.BaseURL)
+  "publisher" (dict "@type" "Organization" "name" site.Title)
+  "datePublished" (.Date.Format "2006-01-02")
+  "name" .Title
+-}}
+{{- with .Params.summary }}{{ $review = merge $review (dict "description" .) }}{{ end -}}
+{{- with .Params.verdict }}{{ $review = merge $review (dict "reviewBody" .) }}{{ end -}}
+{{- if .Params.pros }}{{ $review = merge $review (dict "positiveNotes" .Params.pros) }}{{ end -}}
+{{- if .Params.cons }}{{ $review = merge $review (dict "negativeNotes" .Params.cons) }}{{ end -}}
+{{- $graph = $graph | append $review -}}
+
+<script type="application/ld+json">
+{{- $out := dict "@context" "https://schema.org" "@graph" $graph -}}
+{{ $out | jsonify | safeJS }}
+</script>

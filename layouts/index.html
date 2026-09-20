@@ -1,0 +1,109 @@
+{{ define "main" }}
+{{- $reviews := where site.RegularPages "Section" "reviews" -}}
+{{- $roundups := where site.RegularPages "Section" "roundups" -}}
+{{- $guides := where site.RegularPages "Section" "guides" -}}
+{{- $liveCats := where site.Data.categories "status" "live" -}}
+
+<section class="hero">
+  <div class="container hero__inner">
+    <p class="hero__eyebrow">Independent reviews · No sponsored placement · Reader-supported</p>
+    <h1 class="hero__title">Buy the right thing, <span>the first time.</span></h1>
+    <p class="hero__desc">{{ site.Params.description }}</p>
+    <div class="hero__actions">
+      {{- with index ($roundups.ByDate.Reverse) 0 -}}
+        <a class="btn btn--primary" href="{{ .RelPermalink }}">See our top picks</a>
+      {{- else -}}
+        <a class="btn btn--primary" href="{{ "best/" | relURL }}">See our top picks</a>
+      {{- end -}}
+      <a class="btn btn--ghost" href="{{ "guides/" | relURL }}">Read the buying guide</a>
+    </div>
+    <div class="hero__searches" aria-label="Popular searches">
+      <span class="hero__searches-label">Popular right now:</span>
+      <a href="{{ "best/best-air-purifiers-2025/" | relURL }}">Best air purifiers 2025</a>
+      <a href="{{ "best/best-air-purifiers-small-apartments/" | relURL }}">Small apartments</a>
+      <a href="{{ "guides/air-purifier-buying-guide/" | relURL }}">Buying guide</a>
+      <a href="{{ "categories/air-purifiers/" | relURL }}">All air purifiers</a>
+    </div>
+    <div class="hero__stats">
+      <div class="stat"><strong>{{ len $reviews }}</strong><span>product reviews</span></div>
+      <div class="stat"><strong>{{ len $roundups }}</strong><span>best-of lists</span></div>
+      <div class="stat"><strong>{{ len $guides }}</strong><span>buying guides</span></div>
+      <div class="stat"><strong>0</strong><span>sponsored placements</span></div>
+    </div>
+  </div>
+</section>
+
+{{- with index ($roundups.ByDate.Reverse) 0 -}}
+<section class="section">
+  <div class="container">
+    <div class="section__head">
+      <h2 class="section__title">⭐ Featured comparison</h2>
+      <a class="section__more" href="{{ "best/" | relURL }}">All best-of lists →</a>
+    </div>
+    {{ partial "featured-roundup.html" . }}
+  </div>
+</section>
+{{- end -}}
+
+<section class="section section--alt">
+  <div class="container">
+    <div class="section__head">
+      <h2 class="section__title">Browse by category</h2>
+      <a class="section__more" href="{{ "categories/" | relURL }}">All categories →</a>
+    </div>
+    <div class="cat-grid">
+      {{- range site.Data.categories -}}
+        {{- $c := . -}}
+        {{- $count := len (where site.RegularPages "Params.categories" "intersect" (slice $c.slug)) -}}
+        {{ partial "cat-card.html" (dict "cat" $c "count" $count) }}
+      {{- end -}}
+    </div>
+  </div>
+</section>
+
+{{- with $reviews.ByDate.Reverse -}}
+<section class="section">
+  <div class="container">
+    <div class="section__head">
+      <h2 class="section__title">Latest reviews</h2>
+      <a class="section__more" href="{{ "reviews/" | relURL }}">All reviews →</a>
+    </div>
+    <div class="card-grid">
+      {{- range first 4 . -}}
+        {{ partial "review-card.html" . }}
+      {{- end -}}
+    </div>
+  </div>
+</section>
+{{- end -}}
+
+{{- with $guides.ByDate.Reverse -}}
+<section class="section section--alt">
+  <div class="container">
+    <div class="section__head">
+      <h2 class="section__title">Buyer's guides</h2>
+      <a class="section__more" href="{{ "guides/" | relURL }}">All guides →</a>
+    </div>
+    <div class="card-grid">
+      {{- range first 3 . -}}
+        {{ partial "guide-card.html" . }}
+      {{- end -}}
+    </div>
+  </div>
+</section>
+{{- end -}}
+
+<section class="section">
+  <div class="container">
+    <div class="section__head">
+      <h2 class="section__title">How we keep you from buying the wrong thing</h2>
+    </div>
+    <div class="trust-grid">
+      <div class="trust-card"><span class="trust-card__emoji" aria-hidden="true">🔍</span><h3>We verify the specs</h3><p>CADR, noise, and filter costs come from AHAM ratings and manufacturer data — not marketing copy.</p></div>
+      <div class="trust-card"><span class="trust-card__emoji" aria-hidden="true">⚖️</span><h3>We tell you the cons</h3><p>Every review lists what we <em>don't</em> like. If a product has flaws, you'll read about them.</p></div>
+      <div class="trust-card"><span class="trust-card__emoji" aria-hidden="true">💸</span><h3>We count the real cost</h3><p>Filter replacements and energy add up. We calculate total cost of ownership, not just the sticker price.</p></div>
+    </div>
+    <p class="section__note">Questions or a product you'd like us to review? <a href="{{ "contact/" | relURL }}">Tell us here</a>.</p>
+  </div>
+</section>
+{{ end }}

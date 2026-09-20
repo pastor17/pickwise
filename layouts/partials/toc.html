@@ -1,0 +1,7 @@
+{{- /* Table of contents (scrollspy handled in JS). Input: page context. */ -}}
+{{- with .TableOfContents -}}
+<details class="toc" id="articleToc">
+  <summary>📑 On this page</summary>
+  <div class="toc__body">{{ . }}</div>
+</details>
+{{- end -}}

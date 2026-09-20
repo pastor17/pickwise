@@ -1,0 +1,22 @@
+{{ define "main" }}
+<div class="container page-head">
+  <h1 class="page-title">{{ .Title }}</h1>
+</div>
+<div class="container">
+  {{- if eq .Data.Plural "categories" -}}
+  <div class="cat-grid">
+    {{- range site.Data.categories -}}
+      {{- $c := . -}}
+      {{- $count := len (where site.RegularPages "Params.categories" "intersect" (slice $c.slug)) -}}
+      {{ partial "cat-card.html" (dict "cat" $c "count" $count) }}
+    {{- end -}}
+  </div>
+  {{- else -}}
+  <div class="term-grid">
+    {{- range .Data.Terms.Alphabetical -}}
+      <a class="term-pill" href="{{ .Page.RelPermalink }}">{{ .Page.Title }} <span>{{ .Count }}</span></a>
+    {{- end -}}
+  </div>
+  {{- end -}}
+</div>
+{{ end }}
