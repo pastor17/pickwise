@@ -6,7 +6,7 @@
 # =============================================================
 
 # Replace with your real domain before deploying.
-baseURL = 'https://pickwise.example.com/'
+baseURL = 'https://pickwise.irudder.me/'
 title = 'PickWise'
 languageCode = 'en-US'
 defaultContentLanguage = 'en'
