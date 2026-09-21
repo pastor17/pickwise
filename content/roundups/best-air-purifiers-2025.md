@@ -63,6 +63,28 @@ picks:
     pros: ["Strong CADR (~420 m³/h) for medium rooms", "Full Mi Home smart integration", "Air-quality LED ring"]
     cons: ["Larger footprint than Compact", "Mi Home app only"]
   - rank: 5
+    name: "Core 400S"
+    brand: "Levoit"
+    asin: "B08R794ZMX"
+    image: "img/products/levoit-core-400s.jpg"
+    price: 249.00
+    rating: 4.5
+    bestFor: "Best for large rooms"
+    blurb: "240 CFM AHAM-verified CADR with Alexa/Google control — the best smart purifier for living rooms under $300."
+    pros: ["AHM-verified 240 CFM CADR", "Alexa/Google voice control", "Quiet (24 dB) on low"]
+    cons: ["Filter cost (~$60–70) is moderate", "No washable pre-filter"]
+  - rank: 6
+    name: "Core 600S"
+    brand: "Levoit"
+    asin: "B09BJMY8HL"
+    image: "img/products/levoit-core-600s.jpg"
+    price: 349.00
+    rating: 4.4
+    bestFor: "Best for open-plan spaces"
+    blurb: "375 CFM PM1 CADR with 480g carbon — the most powerful Chinese-brand purifier under $400."
+    pros: ["Highest CADR in the Core series", "2x the carbon of the 400S", "Alexa/Google voice control"]
+    cons: ["Tall and heavy (~30 lbs)", "Filter cost is highest (~$80–90)"]
+  - rank: 7
     name: "Core 300"
     brand: "Levoit"
     asin: "B083TMWFSZ"
