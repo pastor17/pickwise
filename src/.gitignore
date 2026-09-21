@@ -1,0 +1,13 @@
+# Hugo build artifacts
+public/
+resources/
+.hugo_build.lock
+
+# OS / editor
+.DS_Store
+*.tmp
+*.swp
+
+# Secrets — never commit these
+.env
+.env.local

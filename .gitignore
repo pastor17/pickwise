@@ -1,13 +1,13 @@
-# Hugo build artifacts
-public/
-resources/
-.hugo_build.lock
+# Hugo build artifacts (rebuild with: cd src && hugo --minify)
+src/public/
+src/resources/
+src/.hugo_build.lock
 
 # OS / editor
 .DS_Store
 *.tmp
 *.swp
 
-# Secrets — never commit these
+# Secrets
 .env
 .env.local
