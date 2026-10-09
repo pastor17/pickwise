@@ -44,7 +44,7 @@ picks:
     brand: "EcoFlow"
     asin: "B0FQVC4RF5"
     image: ""
-    price: 499.00
+    price: 139.99
     rating: 4.7
     bestFor: "Best for fast charging and van life"
     blurb: "1,024Wh, 1,800W output, X-Stream fast charging (0–80% in 58 minutes). The EcoFlow's X-Stream technology is genuinely faster than Jackery's for AC charging. The 1,800W output handles more appliances than the Jackery 1000 v2."

@@ -28,33 +28,33 @@ faq:
     a: "Almost everything, with exceptions. Great for: chicken wings, fries, vegetables, fish, meatballs, reheating pizza, baking (small batches). Not great for: large roasts (won't fit), liquids (soups, stews — the fan will splash), very delicate foods (meringue, soufflé — the fan will collapse them), and large batches of anything (the fan can't circulate evenly in a crowded basket). It's a convection oven, not a replacement for your main oven."
 picks:
   - rank: 1
-    name: "Cosori Pro LE 5.7QT Air Fryer"
+    name: "Cosori Air Fryer Pro LE 5Qt"
     brand: "Cosori"
-    asin: "B09XJX5K3Z"
+    asin: "B0936FGLQS"
     image: ""
-    price: 89.99
+    price: 89.95
     rating: 4.5
     bestFor: "Best overall for most households"
     blurb: "The sweet spot: 5.7QT capacity, 200–450°F range, digital controls, and a fan strong enough for even cooking. Part of the VeSync family — one app if you already run a Levoit purifier or humidifier."
     pros: ["5.7QT fits 4 servings or 1.5 whole chickens", "Digital controls with 12 presets", "VeSync app integration (same as Levoit)", "Strong fan — even cooking on full loads"]
     cons: ["No dual-zone — one basket only", "Plastic interior — not dishwasher-safe (basket is)"]
   - rank: 2
-    name: "Cosori Dual Zone 7.5QT Air Fryer"
-    brand: "Cosori"
-    asin: "B0B4YQK8M3"
+    name: "Ninja Foodi 8Qt DualZone Air Fryer (DZ201)"
+    brand: "Ninja"
+    asin: "B089TQWJKK"
     image: ""
-    price: 149.99
+    price: 179.99
     rating: 4.4
     bestFor: "Best for families who cook different things at once"
     blurb: "Two independent baskets with separate temperature and timer controls. Cook chicken and fries at the same time — each at its own temperature. The 'sync finish' button makes them end together."
     pros: ["Two independent zones — cook two things at once", "7.5QT total capacity", "Sync-finish feature", "Digital controls with 11 presets"]
     cons: ["Bigger footprint — measure your counter space", "Each zone is ~3.75QT — not as big as a single 6QT"]
   - rank: 3
-    name: "Ninja AF101 4.5QT Air Fryer"
+    name: "Ninja Air Fryer Max XL 5.5Qt (AF161)"
     brand: "Ninja"
-    asin: "B07531HM8Q"
+    asin: "B07S6529ZZ"
     image: ""
-    price: 79.99
+    price: 179.99
     rating: 4.5
     bestFor: "Best US-brand alternative"
     blurb: "The Ninja is the US market leader in air fryers. 4.5QT, digital controls, and the 'Crisp & Crinkle' technology. The brand is a US public company (NYSE: SN), though its largest shareholder is Hong Kong-based. Available in every US retail store, which makes parts and support easier."
@@ -63,9 +63,9 @@ picks:
   - rank: 4
     name: "Instant Pot Vortex Plus 6.3QT Air Fryer"
     brand: "Instant Pot"
-    asin: "B085WSHFVQ"
+    asin: "B07VHFMZHJ"
     image: ""
-    price: 119.99
+    price: 99.94
     rating: 4.3
     bestFor: "Best for people who already own an Instant Pot"
     blurb: "The Instant Pot Vortex Plus is a 6.3QT air fryer with a glass lid — you can watch the food cook. The brand is US-owned (Centre Lane Partners), and the app integrates with other Instant Pot products. The glass lid is a nice touch for monitoring doneness without opening the basket."
