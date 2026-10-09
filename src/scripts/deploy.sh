@@ -50,13 +50,16 @@ else
   git commit -m "$MSG"
 fi
 
+TOKEN="${GITHUB_TOKEN:-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}"
+PUSH_URL="https://x-access-token:${TOKEN}@github.com/pastor17/pickwise.git"
+
 echo "▶ Pushing master…"
-git push origin master
+git push "$PUSH_URL" master
 
 echo "▶ Syncing main (the branch GitHub Pages actually serves)…"
 git checkout main
 git merge master -m "Sync: $MSG" || git merge master --no-edit
-git push origin main
+git push "$PUSH_URL" main
 git checkout master
 
 echo "✔ Done. GitHub Pages will rebuild main in ~1-2 min."
